@@ -9,12 +9,13 @@ const connectDb = async (): Promise<Db | undefined> => {
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useCreateIndex: true,
       }
     );
     console.log("Db connected");
     return connect.connection.db;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };
 

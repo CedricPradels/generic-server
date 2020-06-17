@@ -5,19 +5,26 @@
   "author": "CedricPradels <cedric.pradels@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "jest": "^26.0.1",
     "ts-node-dev": "^1.0.0-pre.49"
   },
   "scripts": {
     "start": "ts-node ./src/app.ts",
-    "dev": "ts-node-dev ./src/app.ts"
+    "dev": "ts-node-dev ./src/app.ts",
+    "test": "jest"
   },
   "dependencies": {
+    "@types/crypto-js": "^3.1.47",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.6",
+    "@types/jest": "^26.0.0",
     "@types/mongoose": "^5.7.24",
+    "@types/randomstring": "^1.1.6",
+    "crypto-js": "^4.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.19",
+    "randomstring": "^1.1.5",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.5"
   }
