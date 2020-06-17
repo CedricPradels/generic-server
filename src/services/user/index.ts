@@ -1,10 +1,11 @@
 import UserModel from "../../models/User";
 import User from "../../models/User";
 
-import { generateAuthenticationData } from "../authentication";
+import { generateAuthenticationData, testPassword } from "../authentication";
 
-import { IUserRegister } from "./user";
+import { IUserRegister, IUserLogin } from "./user";
 import { TPassword, TEmail } from "../../types/User";
+import { query } from "express";
 
 // PREDICATES
 const queryFoundP = (query: any): boolean => query !== null;
@@ -19,9 +20,7 @@ const emailP = (email: TEmail): boolean => {
 const stringP = (str: string): boolean => typeof str === "string";
 
 const userServices = {
-  async register(userRegister: IUserRegister) {
-    const { password, email } = userRegister;
-
+  async register({ email, password }: IUserRegister) {
     // ERRORS
     if (!stringP(email)) throw new Error("Incorrect email data type");
     if (!stringP(password)) throw new Error("Incorrect password data type");
@@ -34,13 +33,26 @@ const userServices = {
     try {
       const newUser = await UserModel.create({ ...authenticationData, email });
 
-      const { email: newUserEmail, _id: id } = newUser;
-      return { email: newUserEmail, id };
+      const { email: newUserEmail, _id: id, token } = newUser;
+      return { email: newUserEmail, id, token };
     } catch (error) {
-      return error;
+      throw error;
     }
   },
-  login() {},
+  async login({ email, password }: IUserLogin) {
+    try {
+      const queryUser = await UserModel.findOne({ email });
+      if (!!!queryUser) throw new Error("User not found");
+
+      if (!testPassword(password, queryUser.hash, queryUser.salt))
+        throw new Error("Wrong password.");
+      const { email: userEmail, token, _id: id } = queryUser;
+
+      return { userEmail, token, id };
+    } catch (error) {
+      throw error;
+    }
+  },
   passwordRecovery() {},
 };
 

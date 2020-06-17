@@ -4,3 +4,8 @@ export interface IUserRegister {
   email: TEmail;
   password: TPassword;
 }
+
+export interface IUserLogin {
+  email: TEmail;
+  password: TPassword;
+}
