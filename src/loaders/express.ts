@@ -1,13 +1,14 @@
 import express from "express";
 
+import formidableMiddleware from "express-formidable";
+
 import api from "../api";
 
 const expressLoader = (): express.Application => {
   const app = express();
 
   // FOR POST REQUESTS
-  app.use(express.urlencoded());
-  app.use(express.json());
+  app.use(formidableMiddleware());
 
   // INJECT API
   app.use("/api", api);

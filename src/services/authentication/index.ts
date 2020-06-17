@@ -27,14 +27,19 @@ export const generateAuthenticationData = async (
 ): Promise<IAuthenticationData> => {
   let token;
   let queryToken;
-
   do {
     token = generateToken();
     queryToken = await UserModel.findOne({ token });
   } while (!!queryToken);
 
+  let recoveryKey;
+  let queryRecoveryKey;
+  do {
+    recoveryKey = generateRecoveryKey();
+    queryRecoveryKey = await UserModel.findOne({ recoveryKey });
+  } while (!!queryToken);
+
   const salt = generateSalt();
-  const recoveryKey = generateRecoveryKey();
   const hash = generateHash(password, salt);
   return {
     token,

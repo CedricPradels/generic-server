@@ -1,10 +1,10 @@
 import UserModel from "../../models/User";
-import User from "../../models/User";
+import { sendEmail } from "../../subscribers/mailgun";
 
 import { generateAuthenticationData, testPassword } from "../authentication";
 
 import { IUserRegister, IUserLogin } from "./user";
-import { TPassword, TEmail } from "../../types/User";
+import { TPassword, TEmail, TRecoveryKey } from "../../types/User";
 import { query } from "express";
 
 // PREDICATES
@@ -53,7 +53,42 @@ const userServices = {
       throw error;
     }
   },
-  passwordRecovery() {},
+  passwordRecovery: {
+    async resetPassword(newPassword: TPassword, recoveryKey: TRecoveryKey) {
+      try {
+        if (!stringP(recoveryKey))
+          throw new Error("Wrong recoveryKey data type");
+        const user = await UserModel.findOne({ recoveryKey });
+        if (!!!user) throw new Error("User not found");
+        if (!stringP(newPassword)) throw new Error("Wrong password data type");
+        if (!passwordP(newPassword))
+          throw new Error("Incorrect password syntax");
+
+        const authenticationData = await generateAuthenticationData(
+          newPassword
+        );
+        user.update(authenticationData);
+        await user.save();
+      } catch (error) {
+        throw error;
+      }
+    },
+    async sendRecoveryLink(email: TEmail) {
+      try {
+        const user = await UserModel.findOne({ email });
+        if (!!!user) throw "User does not exist";
+
+        const recoveryLink = `http://localhost/user/${user.recoveryKey}/recovery`;
+        const response = await sendEmail(
+          email,
+          "Password recovery",
+          `<h1>${recoveryLink}</h1>`
+        );
+      } catch (error) {
+        throw error;
+      }
+    },
+  },
 };
 
 export default userServices;
