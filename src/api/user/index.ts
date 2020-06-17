@@ -54,4 +54,15 @@ route.post("/recovery", async (req, res) => {
     res.json({ emailSent: "failed", error: error.message });
   }
 });
+
+route.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = userServices.read(id);
+
+    res.json({ user });
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
 export default route;

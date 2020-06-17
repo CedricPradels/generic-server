@@ -6,6 +6,7 @@ import { generateAuthenticationData, testPassword } from "../authentication";
 import { IUserRegister, IUserLogin } from "./user";
 import { TPassword, TEmail, TRecoveryKey } from "../../types/User";
 import { query } from "express";
+import User from "../../models/User";
 
 // PREDICATES
 const queryFoundP = (query: any): boolean => query !== null;
@@ -88,6 +89,17 @@ const userServices = {
         throw error;
       }
     },
+  },
+  async read(id: string) {
+    try {
+      const user = await UserModel.findById(id);
+      if (!!!user) throw new Error("User not found");
+      const { email, token } = user;
+
+      return { email, token };
+    } catch (error) {
+      throw error;
+    }
   },
 };
 
