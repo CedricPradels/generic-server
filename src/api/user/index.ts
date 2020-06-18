@@ -58,11 +58,21 @@ route.post("/recovery", async (req, res) => {
 route.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const user = userServices.read(id);
+    const user = await userServices.read(id);
 
     res.json({ user });
   } catch (error) {
     res.json({ error: error.message });
+  }
+});
+
+route.get("/:id/delete", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedUser = await userServices.delete(id);
+    res.json({ deletion: "success", deletedUser });
+  } catch (error) {
+    res.json({ deletion: "failed", error: error.message });
   }
 });
 export default route;

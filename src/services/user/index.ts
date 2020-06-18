@@ -101,6 +101,17 @@ const userServices = {
       throw error;
     }
   },
+  async delete(id: string) {
+    try {
+      const user = await UserModel.findByIdAndDelete(id);
+      if (!!!user) throw new Error("User not found");
+      const { email, token } = user;
+
+      return { email, token };
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default userServices;
