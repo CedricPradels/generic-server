@@ -3,10 +3,8 @@ import { sendEmail } from "../../subscribers/mailgun";
 
 import { generateAuthenticationData, testPassword } from "../authentication";
 
-import { IUserRegister, IUserLogin } from "./user";
+import { IUserRegister, IUserLogin, IUserUpdate } from "./user";
 import { TPassword, TEmail, TRecoveryKey } from "../../types/User";
-import { query } from "express";
-import User from "../../models/User";
 
 // PREDICATES
 const queryFoundP = (query: any): boolean => query !== null;
@@ -108,6 +106,34 @@ const userServices = {
       const { email, token } = user;
 
       return { email, token };
+    } catch (error) {
+      throw error;
+    }
+  },
+  async update(id: string, update: IUserUpdate) {
+    const { email, password } = update;
+    try {
+      const user = await UserModel.findById(id);
+      if (!!!user) throw new Error("User not found");
+
+      if (!!email) {
+        if (!stringP(email)) throw new Error("Incorrect email data type");
+        if (!emailP(email)) throw new Error("Incorrect email syntax");
+        const queryEmail = await UserModel.findOne({ email });
+        if (queryFoundP(queryEmail)) throw new Error("Email already exist");
+        user.email = email;
+      }
+      if (!!password) {
+        if (!stringP(password)) throw new Error("Incorrect password data type");
+        if (!passwordP(password)) throw new Error("Incorrect password syntax");
+        const { salt, hash } = await generateAuthenticationData(password);
+        user.hash = hash;
+        user.salt = salt;
+      }
+
+      const updatedUser = await user.save();
+
+      return { email: updatedUser.email, id };
     } catch (error) {
       throw error;
     }

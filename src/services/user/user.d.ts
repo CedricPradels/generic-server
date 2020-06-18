@@ -9,3 +9,8 @@ export interface IUserLogin {
   email: TEmail;
   password: TPassword;
 }
+
+export interface IUserUpdate {
+  email?: TEmail;
+  password?: TPassword;
+}

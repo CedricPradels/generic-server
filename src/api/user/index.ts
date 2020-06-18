@@ -75,4 +75,20 @@ route.get("/:id/delete", async (req, res) => {
     res.json({ deletion: "failed", error: error.message });
   }
 });
+
+route.post("/:id/update", async (req, res) => {
+  const { id } = req.params;
+  if (!!!req.fields) throw new Error("Missing body");
+  const email = req.fields.email ? String(req.fields.email) : undefined;
+  const password = req.fields.password
+    ? String(req.fields.password)
+    : undefined;
+  const update = { email, password };
+  try {
+    const updatedUser = await userServices.update(id, update);
+    res.json({ update: "success", updatedUser });
+  } catch (error) {
+    res.json({ update: "failed", error: error.message });
+  }
+});
 export default route;
