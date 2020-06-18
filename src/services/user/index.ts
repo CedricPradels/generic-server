@@ -6,25 +6,11 @@ import { generateAuthenticationData, testPassword } from "../authentication";
 import { IUserRegister, IUserLogin, IUserUpdate } from "./user";
 import { TPassword, TEmail, TRecoveryKey, TToken } from "../../types/User";
 
-// PREDICATES
-const queryFoundP = (query: any): boolean => query !== null;
-const passwordP = (password: TPassword): boolean => {
-  const passwordExp = /^[a-zA-Z0-9]{6,50}/;
-  return passwordExp.test(password);
-};
-const emailP = (email: TEmail): boolean => {
-  const emailExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return emailExp.test(email);
-};
-const stringP = (str: string): boolean => typeof str === "string";
-
 const userServices = {
   async register({ email, password }: IUserRegister) {
-    // ERRORS
-    if (!stringP(email)) throw new Error("Incorrect email data type");
-    if (!stringP(password)) throw new Error("Incorrect password data type");
-    if (!emailP(email)) throw new Error("Incorrect email syntax");
-    if (!passwordP(password)) throw new Error("Incorrect password syntax");
+    checkEmail(email);
+    checkPassword(password);
+
     const queryEmail = await UserModel.findOne({ email });
     if (queryFoundP(queryEmail)) throw new Error("Email already exist");
 
@@ -38,6 +24,7 @@ const userServices = {
       throw error;
     }
   },
+
   async login({ email, password }: IUserLogin) {
     try {
       const queryUser = await UserModel.findOne({ email });
@@ -52,16 +39,14 @@ const userServices = {
       throw error;
     }
   },
+
   passwordRecovery: {
     async resetPassword(newPassword: TPassword, recoveryKey: TRecoveryKey) {
       try {
-        if (!stringP(recoveryKey))
-          throw new Error("Wrong recoveryKey data type");
+        checkRecoveryKey(recoveryKey);
         const user = await UserModel.findOne({ recoveryKey });
         if (!!!user) throw new Error("User not found");
-        if (!stringP(newPassword)) throw new Error("Wrong password data type");
-        if (!passwordP(newPassword))
-          throw new Error("Incorrect password syntax");
+        checkPassword(newPassword);
 
         const authenticationData = await generateAuthenticationData(
           newPassword
@@ -72,6 +57,7 @@ const userServices = {
         throw error;
       }
     },
+
     async sendRecoveryLink(email: TEmail) {
       try {
         const user = await UserModel.findOne({ email });
@@ -88,6 +74,7 @@ const userServices = {
       }
     },
   },
+
   async read(id: string) {
     try {
       const user = await UserModel.findById(id);
@@ -99,6 +86,7 @@ const userServices = {
       throw error;
     }
   },
+
   async delete(id: string) {
     try {
       const user = await UserModel.findByIdAndDelete(id);
@@ -110,6 +98,7 @@ const userServices = {
       throw error;
     }
   },
+
   async update(id: string, update: IUserUpdate) {
     const { email, password } = update;
     try {
@@ -117,15 +106,13 @@ const userServices = {
       if (!!!user) throw new Error("User not found");
 
       if (!!email) {
-        if (!stringP(email)) throw new Error("Incorrect email data type");
-        if (!emailP(email)) throw new Error("Incorrect email syntax");
+        checkEmail(email);
         const queryEmail = await UserModel.findOne({ email });
         if (queryFoundP(queryEmail)) throw new Error("Email already exist");
         user.email = email;
       }
       if (!!password) {
-        if (!stringP(password)) throw new Error("Incorrect password data type");
-        if (!passwordP(password)) throw new Error("Incorrect password syntax");
+        checkPassword(password);
         const { salt, hash } = await generateAuthenticationData(password);
         user.hash = hash;
         user.salt = salt;
@@ -138,6 +125,7 @@ const userServices = {
       throw error;
     }
   },
+
   async checkToken(token: TToken) {
     try {
       const user = await UserModel.findOne({ token });
@@ -150,6 +138,32 @@ const userServices = {
       throw error;
     }
   },
+};
+
+// PREDICATES
+const queryFoundP = (query: any): boolean => query !== null;
+const passwordP = (password: TPassword): boolean => {
+  const passwordExp = /^[a-zA-Z0-9]{6,50}/;
+  return passwordExp.test(password);
+};
+const emailP = (email: TEmail): boolean => {
+  const emailExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return emailExp.test(email);
+};
+const stringP = (str: string): boolean => typeof str === "string";
+
+const checkPassword = (password: any) => {
+  if (!stringP(password)) throw new Error("Incorrect password data type");
+  if (!passwordP(password)) throw new Error("Incorrect password syntax");
+};
+
+const checkEmail = (email: any) => {
+  if (!stringP(email)) throw new Error("Incorrect email data type");
+  if (!emailP(email)) throw new Error("Incorrect email syntax");
+};
+
+const checkRecoveryKey = (recoveryKey: any) => {
+  if (!stringP(recoveryKey)) throw new Error("Wrong recoveryKey data type");
 };
 
 export default userServices;
