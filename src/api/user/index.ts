@@ -2,6 +2,8 @@ import { Router } from "express";
 
 import userServices from "../../services/user";
 
+import isAuthenticated from "../middlewares/isAthenticated";
+
 const route = Router();
 
 route.post("/register", async (req, res) => {
@@ -55,7 +57,7 @@ route.post("/recovery", async (req, res) => {
   }
 });
 
-route.get("/:id", async (req, res) => {
+route.get("/:id", isAuthenticated, async (req, res) => {
   const { id } = req.params;
   try {
     const user = await userServices.read(id);
@@ -66,7 +68,7 @@ route.get("/:id", async (req, res) => {
   }
 });
 
-route.get("/:id/delete", async (req, res) => {
+route.get("/:id/delete", isAuthenticated, async (req, res) => {
   const { id } = req.params;
   try {
     const deletedUser = await userServices.delete(id);
@@ -76,7 +78,7 @@ route.get("/:id/delete", async (req, res) => {
   }
 });
 
-route.post("/:id/update", async (req, res) => {
+route.post("/:id/update", isAuthenticated, async (req, res) => {
   const { id } = req.params;
   if (!!!req.fields) throw new Error("Missing body");
   const email = req.fields.email ? String(req.fields.email) : undefined;

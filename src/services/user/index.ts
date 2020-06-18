@@ -4,7 +4,7 @@ import { sendEmail } from "../../subscribers/mailgun";
 import { generateAuthenticationData, testPassword } from "../authentication";
 
 import { IUserRegister, IUserLogin, IUserUpdate } from "./user";
-import { TPassword, TEmail, TRecoveryKey } from "../../types/User";
+import { TPassword, TEmail, TRecoveryKey, TToken } from "../../types/User";
 
 // PREDICATES
 const queryFoundP = (query: any): boolean => query !== null;
@@ -134,6 +134,18 @@ const userServices = {
       const updatedUser = await user.save();
 
       return { email: updatedUser.email, id };
+    } catch (error) {
+      throw error;
+    }
+  },
+  async checkToken(token: TToken) {
+    try {
+      const user = await UserModel.findOne({ token });
+      if (!user) throw new Error("Invalid token.");
+
+      const { _id: id, email } = user;
+
+      return { id, email };
     } catch (error) {
       throw error;
     }

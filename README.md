@@ -16,13 +16,15 @@ The second goal is to improve my backend skill by searching and applying best pr
 ## Todo
 
 - [ ] Build documentation automatically
-  - [x] Search solution
+  - [ ] Search solution
   - [ ] Apply
-- [ ] Track and fix duplicated code
+- [x] Track and fix duplicated code
 - [ ] Add unit tests
   - [ ] Search and learn a solution (Jest ?)
   - [ ] Apply
-- [ ] Add authentication middleware
+- [ ] Improve errors handle
+  - [ ] Search best practices
+  - [ ] Apply
 - [ ] Improve typescript types/interfaces/...
   - [ ] Search best practices
   - [ ] Apply
