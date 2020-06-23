@@ -1,7 +1,5 @@
 import express from "express";
 
-import formidableMiddleware from "express-formidable";
-
 import cors from "cors";
 
 import api from "../api";
@@ -11,7 +9,7 @@ const expressLoader = (): express.Application => {
 
   // FOR POST REQUESTS
   app.use(cors());
-  app.use(formidableMiddleware());
+  app.use(express.json());
 
   // INJECT API
   app.use("/api", api);

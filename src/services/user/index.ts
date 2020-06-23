@@ -64,11 +64,12 @@ const userServices = {
         if (!!!user) throw "User does not exist";
 
         const recoveryLink = `http://localhost/user/${user.recoveryKey}/recovery`;
-        const response = await sendEmail(
-          email,
-          "Password recovery",
-          `<h1>${recoveryLink}</h1>`
-        );
+        // const response = await sendEmail(
+        //   email,
+        //   "Password recovery",
+        //   `<h1>${recoveryLink}</h1>`
+        // );
+        return recoveryLink;
       } catch (error) {
         throw error;
       }

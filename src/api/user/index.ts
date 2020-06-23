@@ -7,9 +7,9 @@ import isAuthenticated from "../middlewares/isAthenticated";
 const route = Router();
 
 route.post("/register", async (req, res) => {
-  if (!!!req.fields) throw new Error("Missing body");
-  const email = String(req.fields.email);
-  const password = String(req.fields.password);
+  if (!!!req.body) throw new Error("Missing body");
+  const { email, password } = req.body;
+
   try {
     const newUser = await userServices.register({ email, password });
 
@@ -20,9 +20,9 @@ route.post("/register", async (req, res) => {
 });
 
 route.post("/login", async (req, res) => {
-  if (!!!req.fields) throw new Error("Missing body");
-  const email = String(req.fields.email);
-  const password = String(req.fields.password);
+  if (!!!req.body) throw new Error("Missing body");
+  const { email, password } = req.body;
+
   try {
     const user = await userServices.login({ email, password });
 
@@ -34,8 +34,8 @@ route.post("/login", async (req, res) => {
 
 route.post("/:recoveryKey/recovery", async (req, res) => {
   const { recoveryKey } = req.params;
-  if (!!!req.fields) throw new Error("Missing body");
-  const newPassword = String(req.fields.newPassword);
+  if (!!!req.body) throw new Error("Missing body");
+  const { newPassword } = req.body;
 
   try {
     await userServices.passwordRecovery.resetPassword(newPassword, recoveryKey);
@@ -46,12 +46,14 @@ route.post("/:recoveryKey/recovery", async (req, res) => {
 });
 
 route.post("/recovery", async (req, res) => {
-  if (!!!req.fields) throw new Error("Missing body");
-  const email = String(req.fields.email);
+  if (!!!req.body) throw new Error("Missing body");
+  const { email } = req.body;
 
   try {
-    await userServices.passwordRecovery.sendRecoveryLink(email);
-    res.json({ emailSent: "success" });
+    const recoveryLink = await userServices.passwordRecovery.sendRecoveryLink(
+      email
+    );
+    res.json({ emailSent: "success", recoveryLink });
   } catch (error) {
     res.json({ emailSent: "failed", error: error.message });
   }
@@ -80,11 +82,8 @@ route.get("/:id/delete", isAuthenticated, async (req, res) => {
 
 route.post("/:id/update", isAuthenticated, async (req, res) => {
   const { id } = req.params;
-  if (!!!req.fields) throw new Error("Missing body");
-  const email = req.fields.email ? String(req.fields.email) : undefined;
-  const password = req.fields.password
-    ? String(req.fields.password)
-    : undefined;
+  if (!!!req.body) throw new Error("Missing body");
+  const { email, password } = req.body;
   const update = { email, password };
   try {
     const updatedUser = await userServices.update(id, update);

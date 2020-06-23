@@ -6,7 +6,7 @@ The first goal here is to build a generic server for my further projects.
 
 The second goal is to improve my backend skill by searching and applying best practices. I want the end result closest to a professional server.
 
-## TEchnologies
+## Technologies
 
 - Node
 - Express
