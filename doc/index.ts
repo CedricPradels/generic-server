@@ -1,4 +1,5 @@
 import user from "./user";
+import components from "./components";
 
 const doc = {
   openapi: "3.0.0",
@@ -29,6 +30,7 @@ const doc = {
   paths: {
     ...user,
   },
+  components,
 };
 
 export default doc;
