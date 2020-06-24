@@ -4,6 +4,7 @@ import recoverykey from "./recoverykey";
 import recoveryPassword from "./recoveryPassword";
 import read from "./read";
 import update from "./update";
+import deleteUser from "./delete";
 
 const user = {
   "/api/user/register": register,
@@ -12,6 +13,7 @@ const user = {
   "/api/user/{recoveryKey}/recovery": recoveryPassword,
   "/api/user/{userId}": read,
   "/api/user/{userId}/update": update,
+  "/api/user/{userId}/delete": deleteUser,
 };
 
 export default user;

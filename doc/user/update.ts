@@ -1,7 +1,7 @@
 const update = {
-  post: {
+  patch: {
     tags: ["User"],
-    description: "Login existing user",
+    description: "Update user data",
     parameters: [
       {
         name: "id",
@@ -49,7 +49,6 @@ const update = {
             example: {
               email: "totoleharicot@danslepot.fr",
               id: "1234567890",
-              token: "0987654321",
             },
           },
         },

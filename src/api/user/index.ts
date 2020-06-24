@@ -34,7 +34,7 @@ route.post("/login", async (req, res, next) => {
   }
 });
 
-route.post("/:recoveryKey/recovery", async (req, res, next) => {
+route.patch("/:recoveryKey/recovery", async (req, res, next) => {
   const { recoveryKey } = req.params;
   if (!!!req.body) throw new ErrorHandler(400, "Missing body");
   const { newPassword } = req.body;
@@ -72,7 +72,7 @@ route.get("/:id", isAuthenticated, async (req, res, next) => {
   }
 });
 
-route.get("/:id/delete", isAuthenticated, async (req, res, next) => {
+route.delete("/:id/delete", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedUser = await userServices.delete(id);
@@ -82,7 +82,7 @@ route.get("/:id/delete", isAuthenticated, async (req, res, next) => {
   }
 });
 
-route.post("/:id/update", isAuthenticated, async (req, res, next) => {
+route.patch("/:id/update", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   if (!!!req.body) throw new ErrorHandler(400, "Missing body");
   const { email, password } = req.body;

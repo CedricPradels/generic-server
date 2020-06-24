@@ -1,49 +1,36 @@
-const recoveryPassword = {
-  patch: {
+const deleteUser = {
+  delete: {
     tags: ["User"],
-    description: "Change password with valid recovery key",
+    description: "Delete user",
     parameters: [
       {
-        name: "recoveryKey",
+        name: "id",
         in: "path",
-        description: "Recovery key previously sent by mail",
+        description: "User id",
         required: true,
         schema: {
           type: "string",
         },
       },
     ],
-    requestBody: {
-      description: "Get the user email",
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            required: ["newPassword"],
-            properties: {
-              newPassword: { type: "string" },
-            },
-          },
-          example: {
-            newPassword: "1234567",
-          },
-        },
-      },
-      required: true,
-    },
+    security: [{ bearerToken: [] }],
     responses: {
       "200": {
-        description: "User password reset. New password set.",
+        description: "New user registered",
         content: {
           "application/json": {
             schema: {
               type: "object",
               properties: {
-                recovery: { type: "string" },
+                email: { type: "string" },
+                id: { type: "string" },
+                token: { type: "string" },
               },
             },
             example: {
-              recovery: "success",
+              email: "totoleharicot@danslepot.fr",
+              id: "1234567890",
+              token: "0987654321",
             },
           },
         },
@@ -72,4 +59,4 @@ const recoveryPassword = {
   },
 };
 
-export default recoveryPassword;
+export default deleteUser;

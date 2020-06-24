@@ -16,18 +16,18 @@ The second goal is to improve my backend skill by searching and applying best pr
 
 ## Todo
 
-- [ ] Build documentation automatically
+- [x] Build documentation automatically
   - [x] Search solution : swagger / openapi
-  - [ ] Apply
-    - [ ] User
+  - [x] Apply
+    - [x] User
       - [x] Register
       - [x] Login
       - [x] Get recovery key
       - [x] Change password with recovery key
       - [x] Read
       - [x] Update
-      - [ ] Delete
-    - [ ] isAuthenticated
+      - [x] Delete
+- [x] Modify protocols (REST)
 - [ ] Add unit tests
   - [ ] Search and learn a solution (Jest ?)
   - [ ] Apply
