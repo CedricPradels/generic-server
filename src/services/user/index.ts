@@ -1,5 +1,6 @@
 import UserModel from "../../models/User";
 import { sendEmail } from "../../subscribers/mailgun";
+import { ErrorHandler } from "../../api/Error";
 
 import { generateAuthenticationData, testPassword } from "../authentication";
 
@@ -12,7 +13,8 @@ const userServices = {
     checkPassword(password);
 
     const queryEmail = await UserModel.findOne({ email });
-    if (queryFoundP(queryEmail)) throw new Error("Email already exist");
+    if (queryFoundP(queryEmail))
+      throw new ErrorHandler(400, "Email already exist");
 
     const authenticationData = await generateAuthenticationData(password);
     try {
@@ -28,10 +30,10 @@ const userServices = {
   async login({ email, password }: IUserLogin) {
     try {
       const queryUser = await UserModel.findOne({ email });
-      if (!!!queryUser) throw new Error("User not found");
+      if (!!!queryUser) throw new ErrorHandler(400, "User not found");
 
       if (!testPassword(password, queryUser.hash, queryUser.salt))
-        throw new Error("Wrong password.");
+        throw new ErrorHandler(400, "Wrong password.");
       const { email: userEmail, token, _id: id } = queryUser;
 
       return { userEmail, token, id };
@@ -45,7 +47,7 @@ const userServices = {
       try {
         checkRecoveryKey(recoveryKey);
         const user = await UserModel.findOne({ recoveryKey });
-        if (!!!user) throw new Error("User not found");
+        if (!!!user) throw new ErrorHandler(400, "User not found");
         checkPassword(newPassword);
 
         const authenticationData = await generateAuthenticationData(
@@ -79,7 +81,7 @@ const userServices = {
   async read(id: string) {
     try {
       const user = await UserModel.findById(id);
-      if (!!!user) throw new Error("User not found");
+      if (!!!user) throw new ErrorHandler(400, "User not found");
       const { email, token } = user;
 
       return { email, token };
@@ -91,7 +93,7 @@ const userServices = {
   async delete(id: string) {
     try {
       const user = await UserModel.findByIdAndDelete(id);
-      if (!!!user) throw new Error("User not found");
+      if (!!!user) throw new ErrorHandler(400, "User not found");
       const { email, token } = user;
 
       return { email, token };
@@ -104,12 +106,13 @@ const userServices = {
     const { email, password } = update;
     try {
       const user = await UserModel.findById(id);
-      if (!!!user) throw new Error("User not found");
+      if (!!!user) throw new ErrorHandler(400, "User not found");
 
       if (!!email) {
         checkEmail(email);
         const queryEmail = await UserModel.findOne({ email });
-        if (queryFoundP(queryEmail)) throw new Error("Email already exist");
+        if (queryFoundP(queryEmail))
+          throw new ErrorHandler(400, "Email already exist");
         user.email = email;
       }
       if (!!password) {
@@ -130,7 +133,7 @@ const userServices = {
   async checkToken(token: TToken) {
     try {
       const user = await UserModel.findOne({ token });
-      if (!user) throw new Error("Invalid token.");
+      if (!user) throw new ErrorHandler(403, "Invalid token.");
 
       const { _id: id, email } = user;
 
@@ -154,17 +157,20 @@ const emailP = (email: TEmail): boolean => {
 const stringP = (str: string): boolean => typeof str === "string";
 
 const checkPassword = (password: any) => {
-  if (!stringP(password)) throw new Error("Incorrect password data type");
-  if (!passwordP(password)) throw new Error("Incorrect password syntax");
+  if (!stringP(password))
+    throw new ErrorHandler(400, "Incorrect password data type");
+  if (!passwordP(password))
+    throw new ErrorHandler(400, "Incorrect password syntax");
 };
 
 const checkEmail = (email: any) => {
-  if (!stringP(email)) throw new Error("Incorrect email data type");
-  if (!emailP(email)) throw new Error("Incorrect email syntax");
+  if (!stringP(email)) throw new ErrorHandler(400, "Incorrect email data type");
+  if (!emailP(email)) throw new ErrorHandler(400, "Incorrect email syntax");
 };
 
 const checkRecoveryKey = (recoveryKey: any) => {
-  if (!stringP(recoveryKey)) throw new Error("Wrong recoveryKey data type");
+  if (!stringP(recoveryKey))
+    throw new ErrorHandler(400, "Wrong recoveryKey data type");
 };
 
 export default userServices;

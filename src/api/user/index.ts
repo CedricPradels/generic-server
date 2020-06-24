@@ -2,12 +2,14 @@ import { Router } from "express";
 
 import userServices from "../../services/user";
 
+import { ErrorHandler } from "../Error";
+
 import isAuthenticated from "../middlewares/isAthenticated";
 
 const route = Router();
 
-route.post("/register", async (req, res) => {
-  if (!!!req.body) throw new Error("Missing body");
+route.post("/register", async (req, res, next) => {
+  if (!!!req.body) throw new ErrorHandler(400, "Missing body");
   const { email, password } = req.body;
 
   try {
@@ -15,12 +17,12 @@ route.post("/register", async (req, res) => {
 
     res.json({ user: newUser });
   } catch (error) {
-    res.json({ error: error.message });
+    next(error);
   }
 });
 
-route.post("/login", async (req, res) => {
-  if (!!!req.body) throw new Error("Missing body");
+route.post("/login", async (req, res, next) => {
+  if (!!!req.body) throw new ErrorHandler(400, "Missing body");
   const { email, password } = req.body;
 
   try {
@@ -28,25 +30,25 @@ route.post("/login", async (req, res) => {
 
     res.json({ user: user, login: "success" });
   } catch (error) {
-    res.json({ error: error.message, login: "failed" });
+    next(error);
   }
 });
 
-route.post("/:recoveryKey/recovery", async (req, res) => {
+route.post("/:recoveryKey/recovery", async (req, res, next) => {
   const { recoveryKey } = req.params;
-  if (!!!req.body) throw new Error("Missing body");
+  if (!!!req.body) throw new ErrorHandler(400, "Missing body");
   const { newPassword } = req.body;
 
   try {
     await userServices.passwordRecovery.resetPassword(newPassword, recoveryKey);
     res.json({ recovery: "success" });
   } catch (error) {
-    res.json({ recovery: "failed", error: error.message });
+    next(error);
   }
 });
 
-route.post("/recovery", async (req, res) => {
-  if (!!!req.body) throw new Error("Missing body");
+route.post("/recovery", async (req, res, next) => {
+  if (!!!req.body) throw new ErrorHandler(400, "Missing body");
   const { email } = req.body;
 
   try {
@@ -55,41 +57,41 @@ route.post("/recovery", async (req, res) => {
     );
     res.json({ emailSent: "success", recoveryLink });
   } catch (error) {
-    res.json({ emailSent: "failed", error: error.message });
+    next(error);
   }
 });
 
-route.get("/:id", isAuthenticated, async (req, res) => {
+route.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const user = await userServices.read(id);
 
     res.json({ user });
   } catch (error) {
-    res.json({ error: error.message });
+    next(error);
   }
 });
 
-route.get("/:id/delete", isAuthenticated, async (req, res) => {
+route.get("/:id/delete", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedUser = await userServices.delete(id);
     res.json({ deletion: "success", deletedUser });
   } catch (error) {
-    res.json({ deletion: "failed", error: error.message });
+    next(error);
   }
 });
 
-route.post("/:id/update", isAuthenticated, async (req, res) => {
+route.post("/:id/update", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
-  if (!!!req.body) throw new Error("Missing body");
+  if (!!!req.body) throw new ErrorHandler(400, "Missing body");
   const { email, password } = req.body;
   const update = { email, password };
   try {
     const updatedUser = await userServices.update(id, update);
     res.json({ update: "success", updatedUser });
   } catch (error) {
-    res.json({ update: "failed", error: error.message });
+    next(error);
   }
 });
 export default route;

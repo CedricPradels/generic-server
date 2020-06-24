@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 
 import api from "../api";
+import { handleError } from "../api/Error";
 
 const expressLoader = (): express.Application => {
   const app = express();
@@ -13,6 +14,8 @@ const expressLoader = (): express.Application => {
 
   // INJECT API
   app.use("/api", api);
+
+  app.use(handleError);
 
   return app;
 };
