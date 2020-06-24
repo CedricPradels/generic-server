@@ -21,7 +21,7 @@ The second goal is to improve my backend skill by searching and applying best pr
   - [ ] Apply
     - [ ] User
       - [x] Register
-      - [ ] Login
+      - [x] Login
       - [ ] Get recovery key
       - [ ] Change password with recovery key
       - [ ] Update
@@ -51,4 +51,5 @@ The second goal is to improve my backend skill by searching and applying best pr
   - [jsdoc](https://jsdoc.app/about-getting-started.html) : a tester. Génère html.
   - [apiDoc](https://apidocjs.com) : fonctionnement aléatoire. Génère html.
   - [openAPI/Swagger](https://medium.com/wolox/documenting-a-nodejs-rest-api-with-openapi-3-swagger-5deee9f50420)
+  - [OpenAPI/Swagger documentation](https://swagger.io/specification/)
 - Typescripts good practices
