@@ -12,17 +12,23 @@ The second goal is to improve my backend skill by searching and applying best pr
 - Express
 - MongoDB
 - TypeScript
+- Swagger/OpenApi
 
 ## Todo
 
 - [ ] Build documentation automatically
-  - [ ] Search solution
+  - [x] Search solution : swagger / openapi
   - [ ] Apply
+    - [ ] User
+      - [x] Register
+      - [ ] Login
+      - [ ] Get recovery key
+      - [ ] Change password with recovery key
+      - [ ] Update
+      - [ ] Delete
+    - [ ] isAuthenticated
 - [ ] Add unit tests
   - [ ] Search and learn a solution (Jest ?)
-  - [ ] Apply
-- [ ] Improve errors handle
-  - [ ] Search best practices
   - [ ] Apply
 - [ ] Improve typescript types/interfaces/...
   - [ ] Search best practices
@@ -41,4 +47,8 @@ The second goal is to improve my backend skill by searching and applying best pr
   - [Error codes and best practices](https://developer.orange.com/tech_guide/orange-apis-error-handling/)
 - Unit tests
 - Documentation flow
+  - [documentation.js](https://documentation.js.org) : plus de MAJ depuis 2018. Génère MD.
+  - [jsdoc](https://jsdoc.app/about-getting-started.html) : a tester. Génère html.
+  - [apiDoc](https://apidocjs.com) : fonctionnement aléatoire. Génère html.
+  - [openAPI/Swagger](https://medium.com/wolox/documenting-a-nodejs-rest-api-with-openapi-3-swagger-5deee9f50420)
 - Typescripts good practices

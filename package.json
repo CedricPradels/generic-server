@@ -5,7 +5,10 @@
   "author": "CedricPradels <cedric.pradels@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/swagger-ui-express": "^4.1.2",
+    "apidoc": "^0.23.0",
     "jest": "^26.0.1",
+    "swagger-ui-express": "^4.1.4",
     "ts-node-dev": "^1.0.0-pre.49"
   },
   "scripts": {
