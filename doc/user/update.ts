@@ -1,7 +1,7 @@
-const read = {
-  get: {
+const update = {
+  post: {
     tags: ["User"],
-    description: "Get user data",
+    description: "Login existing user",
     parameters: [
       {
         name: "id",
@@ -14,9 +14,29 @@ const read = {
       },
     ],
     security: [{ bearerToken: [] }],
+    requestBody: {
+      description: "Update data",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            required: ["email", "password"],
+            properties: {
+              email: { type: "string" },
+              password: { type: "string," },
+            },
+          },
+          example: {
+            email: "totoleharicot@danslepot.fr",
+            password: "098765",
+          },
+        },
+      },
+      required: true,
+    },
     responses: {
       "200": {
-        description: "User secure data",
+        description: "New user registered",
         content: {
           "application/json": {
             schema: {
@@ -27,8 +47,9 @@ const read = {
               },
             },
             example: {
-              email: "totoleharicot@hi.net",
+              email: "totoleharicot@danslepot.fr",
               id: "1234567890",
+              token: "0987654321",
             },
           },
         },
@@ -57,4 +78,4 @@ const read = {
   },
 };
 
-export default read;
+export default update;
