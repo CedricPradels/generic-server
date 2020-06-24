@@ -22,7 +22,7 @@ The second goal is to improve my backend skill by searching and applying best pr
     - [ ] User
       - [x] Register
       - [x] Login
-      - [ ] Get recovery key
+      - [x] Get recovery key
       - [ ] Change password with recovery key
       - [ ] Update
       - [ ] Delete

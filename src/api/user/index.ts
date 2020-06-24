@@ -55,7 +55,7 @@ route.post("/recovery", async (req, res, next) => {
     const recoveryLink = await userServices.passwordRecovery.sendRecoveryLink(
       email
     );
-    res.json({ emailSent: "success", recoveryLink });
+    res.json({ emailSent: "success" });
   } catch (error) {
     next(error);
   }
