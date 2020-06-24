@@ -1,5 +1,5 @@
 const recoveryPassword = {
-  patch: {
+  put: {
     tags: ["User"],
     description: "Change password with valid recovery key",
     parameters: [
@@ -14,7 +14,7 @@ const recoveryPassword = {
       },
     ],
     requestBody: {
-      description: "Get the user email",
+      description: "New user password",
       content: {
         "application/json": {
           schema: {
@@ -49,7 +49,7 @@ const recoveryPassword = {
         },
       },
       "400": {
-        description: "Missing parameters",
+        description: "Error",
         content: {
           "application/json": {
             schema: {

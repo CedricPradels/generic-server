@@ -24,7 +24,7 @@ const login = {
     },
     responses: {
       "200": {
-        description: "New user registered",
+        description: "User login",
         content: {
           "application/json": {
             schema: {
@@ -44,7 +44,7 @@ const login = {
         },
       },
       "400": {
-        description: "Missing parameters",
+        description: "Error",
         content: {
           "application/json": {
             schema: {

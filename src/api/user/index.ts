@@ -34,7 +34,7 @@ route.post("/login", async (req, res, next) => {
   }
 });
 
-route.patch("/:recoveryKey/recovery", async (req, res, next) => {
+route.put("/:recoveryKey/recovery", async (req, res, next) => {
   const { recoveryKey } = req.params;
   if (!!!req.body) throw new ErrorHandler(400, "Missing body");
   const { newPassword } = req.body;

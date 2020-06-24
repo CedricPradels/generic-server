@@ -1,4 +1,4 @@
-const recoverykey = {
+const recoveryKey = {
   post: {
     tags: ["User"],
     description: "Generate a recovery key and sent it per mail to the user",
@@ -38,7 +38,7 @@ const recoverykey = {
         },
       },
       "400": {
-        description: "Missing parameters",
+        description: "Error",
         content: {
           "application/json": {
             schema: {
@@ -61,4 +61,4 @@ const recoverykey = {
   },
 };
 
-export default recoverykey;
+export default recoveryKey;

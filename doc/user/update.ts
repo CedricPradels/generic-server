@@ -36,7 +36,7 @@ const update = {
     },
     responses: {
       "200": {
-        description: "New user registered",
+        description: "Updated data",
         content: {
           "application/json": {
             schema: {
@@ -54,7 +54,7 @@ const update = {
         },
       },
       "400": {
-        description: "Missing parameters",
+        description: "Error",
         content: {
           "application/json": {
             schema: {

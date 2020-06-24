@@ -3,7 +3,7 @@ const register = {
     tags: ["User"],
     description: "Register new user",
     requestBody: {
-      description: "New user informations",
+      description: "New user information",
       content: {
         "application/json": {
           schema: {
@@ -31,20 +31,18 @@ const register = {
               type: "object",
               properties: {
                 email: { type: "string" },
-                token: { type: "string" },
                 id: { type: "string" },
               },
             },
             example: {
               email: "totoleharicot@danslepot.fr",
               id: "1234567890",
-              token: "0987654321",
             },
           },
         },
       },
       "400": {
-        description: "Missing parameters",
+        description: "Error",
         content: {
           "application/json": {
             schema: {
