@@ -72,7 +72,7 @@ route.get("/:id", isAuthenticated, async (req, res, next) => {
   }
 });
 
-route.delete("/:id/delete", isAuthenticated, async (req, res, next) => {
+route.delete("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedUser = await userServices.delete(id);
@@ -82,7 +82,7 @@ route.delete("/:id/delete", isAuthenticated, async (req, res, next) => {
   }
 });
 
-route.patch("/:id/update", isAuthenticated, async (req, res, next) => {
+route.put("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   if (!!!req.body) throw new ErrorHandler(400, "Missing body");
   const { email, password } = req.body;

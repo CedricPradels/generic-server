@@ -27,7 +27,7 @@ The second goal is to improve my backend skill by searching and applying best pr
       - [x] Read
       - [x] Update
       - [x] Delete
-- [x] Modify protocols (REST)
+- [x] Respect REST principes
 - [ ] Add unit tests
   - [ ] Search and learn a solution (Jest ?)
   - [ ] Apply
@@ -42,6 +42,7 @@ The second goal is to improve my backend skill by searching and applying best pr
   - [RealWorld project](https://github.com/gothinkster/node-express-realworld-example-app)
   - [Dev Mastery](https://www.youtube.com/watch?v=CnailTcJV_U&t=844s)
 - Rest API standards and good practices
+  - [Wikipedia crud restful](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)
 - Error handling
   - [Handle error with middleware and custom error class](https://dev.to/nedsoft/central-error-handling-in-express-3aej)
   - [Express documentation](https://expressjs.com/en/guide/error-handling.html)

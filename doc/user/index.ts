@@ -11,9 +11,7 @@ const user = {
   "/api/user/login": login,
   "/api/user/recovery": recoverykey,
   "/api/user/{recoveryKey}/recovery": recoveryPassword,
-  "/api/user/{userId}": read,
-  "/api/user/{userId}/update": update,
-  "/api/user/{userId}/delete": deleteUser,
+  "/api/user/{userId}": { ...read, ...update, ...deleteUser },
 };
 
 export default user;

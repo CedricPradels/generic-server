@@ -1,5 +1,5 @@
 const update = {
-  patch: {
+  put: {
     tags: ["User"],
     description: "Update user data",
     parameters: [
