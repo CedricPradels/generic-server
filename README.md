@@ -29,8 +29,21 @@ The second goal is to improve my backend skill by searching and applying best pr
       - [x] Delete
 - [x] Respect REST principes
 - [ ] Add unit tests
-  - [ ] Search and learn a solution (Jest ?)
+  - [x] Search and learn a solution : jest
   - [ ] Apply
+    - [ ] services
+      - [ ] Authentication
+        - [x] Generate recovery key
+        - [ ] Generate authentication data
+        - [ ] Test password
+      - [ ] user
+        - [ ] login
+        - [ ] register
+        - [ ] read user
+        - [ ] get recovery key
+        - [ ] change password
+        - [ ] delete
+        - [ ] update
 - [ ] Improve typescript types/interfaces/...
   - [ ] Search best practices
   - [ ] Apply
@@ -48,6 +61,7 @@ The second goal is to improve my backend skill by searching and applying best pr
   - [Express documentation](https://expressjs.com/en/guide/error-handling.html)
   - [Error codes and best practices](https://developer.orange.com/tech_guide/orange-apis-error-handling/)
 - Unit tests
+  - [FunFunFunction youtube channel](https://www.youtube.com/playlist?list=PL0zVEGEvSaeF_zoW9o66wa_UCNE3a7BEr)
 - Documentation flow
   - [documentation.js](https://documentation.js.org) : plus de MAJ depuis 2018. Génère MD.
   - [jsdoc](https://jsdoc.app/about-getting-started.html) : a tester. Génère html.

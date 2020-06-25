@@ -5,16 +5,21 @@
   "author": "CedricPradels <cedric.pradels@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "@babel/preset-typescript": "^7.10.1",
     "@types/swagger-ui-express": "^4.1.2",
     "apidoc": "^0.23.0",
-    "jest": "^26.0.1",
+    "babel-jest": "^26.1.0",
+    "jest": "^26.1.0",
     "swagger-ui-express": "^4.1.4",
     "ts-node-dev": "^1.0.0-pre.49"
   },
   "scripts": {
     "start": "ts-node ./src/app.ts",
     "dev": "ts-node-dev ./src/app.ts",
-    "test": "jest"
+    "test": "jest",
+    "watch": "jest --watch *.ts"
   },
   "dependencies": {
     "@types/cors": "^2.8.6",
